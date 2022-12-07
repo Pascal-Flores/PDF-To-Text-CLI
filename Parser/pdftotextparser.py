@@ -32,24 +32,18 @@ def main():
             else:
                 print("File already exists: " + str(txt_file))
         
-        pdftotext_file = open(txt_file, 'r')
-        output_file = open(path+'_TXT/'+str(Path(os.path.basename(pdf_file)).stem)+'.txt', 'w+')
+            pdftotext_file = open(txt_file, 'r')
+            output_file = open(path+'_TXT/'+str(Path(os.path.basename(pdf_file)).stem)+'.txt', 'w+')
         
-        
-        output_file.write(os.path.basename(pdf_file).replace(' ', '_') + '\n')
+            output_file.write(os.path.basename(pdf_file).replace(' ', '_') + '\n')
     
-        title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
-        output_file.write(title + '\n')
+            title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
+            output_file.write(title + '\n')
 
-        output_file.write(abstract.readAbstract(pdftotext_file))
+            output_file.write(abstract.readAbstract(pdftotext_file))
 
-        pdftotext_file.close()
-        output_file.close()
-        os.remove(txt_file)
-
-
+            pdftotext_file.close()
+            output_file.close()
+            os.remove(txt_file)
             
 main()
-
-
-
