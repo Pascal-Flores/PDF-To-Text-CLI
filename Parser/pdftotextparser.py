@@ -5,11 +5,28 @@ import subprocess
 import argparse
 from pathlib import Path
 
-parser = argparse.ArgumentParser(description='Convert pdftotext output to a custom txt file')
-parser.add_argument('file', help='a pdf file', type=str)
-parser.add_argument('-o', '--output', help='output file', type=str)
+# for each file in the directory located in ../CORPUS_TRAIN
+# run pdftotext on the file and save the output to a text file in the directory ../CORPUS_TRAIN_TXT
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("path", help="path to the directory containing the pdf files")
+    args = parser.parse_args()
+    path = args.path
+    for file in os.listdir(path):
+        if file.endswith(".pdf"):
+            print("Processing file: " + file)
+            pdf_file = Path(path + "/" + file)
+            txt_file = Path(path + "_TXT/" + file + ".txt")
+            if not txt_file.is_file():
+                subprocess.call(["pdftotext", "-raw", pdf_file, txt_file])
+                print ("Created temporary text file: " + str(txt_file))
+            else:
+                print("File already exists: " + str(txt_file))
 
-args = parser.parse_args()
+            
+main()
+
+'''
 
 # generates the txt version of the input file
 subprocess.run(["pdftotext", "-raw", args.file, args.file+'.txt'])
@@ -28,5 +45,6 @@ outfile.write(os.path.basename(args.file).replace(' ', '_'))
 # deletes the txt version of the input file
 os.remove(args.file+'.txt')
 
+'''
 
 
