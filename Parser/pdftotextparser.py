@@ -12,51 +12,141 @@ import abstract
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("path", help="path to the directory containing the pdf files")
-    parser.add_argument("-x", "--xml", help="output file will be in xml format")
-    parser.add_argument("-t", "--txt", help="output file will be in txt format")
+    parser.add_argument("-x", "--xml", action="store_true",  help="output file will be in xml format")
+    parser.add_argument("-t", "--txt", action="store_true", help="output file will be in txt format")
 
     args = parser.parse_args()
+
+    path = args.path
     if args.xml and args.txt:
         print("Error: cannot specify both xml and txt output")
         exit(1)
     elif args.xml:
-        print("xml output not yet implemented")
-        exit(1)
+        outputFilesInXMLFormat(path)
     elif args.txt:
-        print("txt output not yet implemented")
-        exit(1)
+        outputFilesInTXTFormat(path)
 
-    path = args.path
+def SanitizeDirectory(path):
+    if not os.path.exists(path):
+        os.makedirs(path)
+    elif os.listdir(path):
+        for file in os.listdir(path):
+            os.remove(path+"/"+file)
 
-    if not os.path.exists(path + "_TXT"):
-        os.makedirs(path + "_TXT")
-    elif os.listdir(path + "_TXT"):
-        for file in os.listdir(path + "_TXT"):
-            os.remove(path + "_TXT/" + file)
-
-    for file in os.listdir(path):
+def generateTempFiles(inputPath, outputPath):
+    for file in os.listdir(inputPath):
         if file.endswith(".pdf"):
-            print("Processing file: " + file)
-            pdf_file = Path(path + "/" + file)
-            txt_file = Path(path + "_TXT/" + file + ".txt")
+            pdf_file = Path(inputPath + "/" + file)
+            txt_file = Path(outputPath+ "/" + file + ".txt")
             if not txt_file.is_file():
                 subprocess.call(["pdftotext", "-raw", pdf_file, txt_file])
                 print ("Created temporary text file: " + str(txt_file))
             else:
                 print("File already exists: " + str(txt_file))
-        
-            pdftotext_file = open(txt_file, 'r')
-            output_file = open(path+'_TXT/'+str(Path(os.path.basename(pdf_file)).stem)+'.txt', 'w+')
-        
-            output_file.write(os.path.basename(pdf_file).replace(' ', '_') + '\n')
+    return
+
+def cleanTempFiles(path):
+    for file in os.listdir(path):
+        if file.endswith(".pdf.txt"):
+            os.remove(path+"/"+file)
+
+def outputFilesInXMLFormat(inputPath):
+    outputPath = inputPath + "_XML"
+    SanitizeDirectory(outputPath)
+    generateTempFiles(inputPath, outputPath)
     
-            title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
-            output_file.write(title + '\n')
+    cleanTempFiles(outputPath)
+    print("xml output not yet implemented")
+    exit(1)
 
-            output_file.write(abstract.readAbstract(pdftotext_file))
+''''''''''''''''''
+''' TXT OUTPUT '''
+''''''''''''''''''
 
-            pdftotext_file.close()
-            output_file.close()
-            os.remove(txt_file)
-            
+def generateTXTFiles(outputPath):
+    for file in os.listdir(outputPath):
+        print(file)
+        if not file.endswith(".pdf.txt"):
+            continue
+        else:
+            pdftotext_file = open(outputPath+"/"+file, 'r')
+
+        input_file_name = Path(os.path.basename(file)).stem
+
+        output_file = open(outputPath+"/"+Path(input_file_name).stem+".txt", 'w+')
+        print (output_file.name)
+        output_file.write(input_file_name.replace(' ', '_') + '\n')
+    
+        title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
+        output_file.write(title + '\n')
+
+        output_file.write(abstract.readAbstract(pdftotext_file))
+
+        pdftotext_file.close()
+        output_file.close()
+        os.remove(outputPath+"/"+file)
+    
+    return
+
+def outputFilesInTXTFormat(inputPath):
+    outputPath = inputPath + "_TXT"
+    SanitizeDirectory(outputPath)
+    generateTempFiles(inputPath, outputPath)
+    generateTXTFiles(outputPath)
+    cleanTempFiles(outputPath)
+
+def generateFiles(inputPath, format):
+    match format:
+        case "xml":
+            outputPath = inputPath + "_XML"
+        case "txt":
+            outputPath = inputPath + "_TXT"
+        case _:
+            print("Error: invalid format")
+            exit(1)
+    
+    SanitizeDirectory(outputPath)
+    generateTempFiles(inputPath, outputPath)
+    match format:
+        case "xml":
+            generateXMLFiles(outputPath)
+        case "txt":
+            generateTXTFiles(outputPath)
+        
+    cleanTempFiles(outputPath)
+
 main()
+
+
+
+
+
+def generateXMLFiles(outputPath):
+    for file in os.listdir(outputPath):
+        print(file)
+        if not file.endswith(".pdf.txt"):
+            continue
+        else:
+            pdftotext_file = open(outputPath+"/"+file, 'r')
+
+        input_file_name = Path(os.path.basename(file)).stem
+
+        output_file = open(outputPath+"/"+Path(input_file_name).stem+".txt", 'w+')
+        print (output_file.name)
+
+        # 
+        output_file.write(input_file_name.replace(' ', '_') + '\n')
+    
+        title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
+        output_file.write(title + '\n')
+
+        output_file.write(abstract.readAbstract(pdftotext_file))
+
+        pdftotext_file.close()
+        output_file.close()
+        os.remove(outputPath+"/"+file)
+    
+    return
+
+
+
