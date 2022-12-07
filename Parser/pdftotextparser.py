@@ -5,6 +5,8 @@ import subprocess
 import argparse
 from pathlib import Path
 
+import abstract
+
 # for each file in the directory located in ../CORPUS_TRAIN
 # run pdftotext on the file and save the output to a text file in the directory ../CORPUS_TRAIN_TXT
 def main():
@@ -32,7 +34,14 @@ def main():
         
         pdftotext_file = open(txt_file, 'r')
         output_file = open(path+'_TXT/'+str(Path(os.path.basename(pdf_file)).stem)+'.txt', 'w+')
-        output_file.write(os.path.basename(pdf_file).replace(' ', '_'))
+        
+        
+        output_file.write(os.path.basename(pdf_file).replace(' ', '_') + '\n')
+    
+        title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
+        output_file.write(title + '\n')
+
+        output_file.write(abstract.readAbstract(pdftotext_file))
 
         pdftotext_file.close()
         output_file.close()
