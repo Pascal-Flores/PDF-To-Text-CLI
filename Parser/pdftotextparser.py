@@ -12,7 +12,20 @@ import abstract
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("path", help="path to the directory containing the pdf files")
+    parser.add_argument("-x", "--xml", help="output file will be in xml format")
+    parser.add_argument("-t", "--txt", help="output file will be in txt format")
+
     args = parser.parse_args()
+    if args.xml and args.txt:
+        print("Error: cannot specify both xml and txt output")
+        exit(1)
+    elif args.xml:
+        print("xml output not yet implemented")
+        exit(1)
+    elif args.txt:
+        print("txt output not yet implemented")
+        exit(1)
+
     path = args.path
 
     if not os.path.exists(path + "_TXT"):
