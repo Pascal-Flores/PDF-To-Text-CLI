@@ -12,6 +12,13 @@ def main():
     parser.add_argument("path", help="path to the directory containing the pdf files")
     args = parser.parse_args()
     path = args.path
+
+    if not os.path.exists(path + "_TXT"):
+        os.makedirs(path + "_TXT")
+    elif os.listdir(path + "_TXT"):
+        for file in os.listdir(path + "_TXT"):
+            os.remove(path + "_TXT/" + file)
+
     for file in os.listdir(path):
         if file.endswith(".pdf"):
             print("Processing file: " + file)
