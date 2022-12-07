@@ -29,6 +29,15 @@ def main():
                 print ("Created temporary text file: " + str(txt_file))
             else:
                 print("File already exists: " + str(txt_file))
+        
+        pdftotext_file = open(txt_file, 'r')
+        output_file = open(path+'_TXT/'+str(Path(os.path.basename(pdf_file)).stem)+'.txt', 'w+')
+        output_file.write(os.path.basename(pdf_file).replace(' ', '_'))
+
+        pdftotext_file.close()
+        output_file.close()
+        os.remove(txt_file)
+
 
             
 main()
