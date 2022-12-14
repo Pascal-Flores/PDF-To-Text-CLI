@@ -92,6 +92,8 @@ def generateTXTFiles(outputPath):
         output_file.write(title + '\n')
 
         output_file.write(abstract.readAbstract(pdftotext_file))
+        
+        output_file.write(abstract.getReference(pdftotext_file))
 
         pdftotext_file.close()
         output_file.close()
