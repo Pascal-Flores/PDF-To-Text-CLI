@@ -7,8 +7,6 @@ from pathlib import Path
 
 import abstract
 
-# for each file in the directory located in ../CORPUS_TRAIN
-# run pdftotext on the file and save the output to a text file in the directory ../CORPUS_TRAIN_TXT
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("path", help="path to the directory containing the pdf files")
@@ -25,6 +23,11 @@ def main():
         outputFilesInXMLFormat(path)
     elif args.txt:
         outputFilesInTXTFormat(path)
+
+
+''''''''''''''''''
+''' TEMP FILES '''
+''''''''''''''''''
 
 def SanitizeDirectory(path):
     if not os.path.exists(path):
@@ -50,18 +53,22 @@ def cleanTempFiles(path):
         if file.endswith(".pdf.txt"):
             os.remove(path+"/"+file)
 
-def outputFilesInXMLFormat(inputPath):
-    outputPath = inputPath + "_XML"
+
+''''''''''''''
+''' OUTPUT '''
+''''''''''''''
+
+def createFiles(inputPath, format):
+    outputPath = inputPath + "_" + format.upper()
     SanitizeDirectory(outputPath)
     generateTempFiles(inputPath, outputPath)
-    
+    match format:
+        case "xml":
+            generateXMLFiles(outputPath)
+        case "txt":
+            generateTXTFiles(outputPath)
     cleanTempFiles(outputPath)
-    print("xml output not yet implemented")
-    exit(1)
-
-''''''''''''''''''
-''' TXT OUTPUT '''
-''''''''''''''''''
+    exit(0)
 
 def generateTXTFiles(outputPath):
     for file in os.listdir(outputPath):
@@ -87,39 +94,6 @@ def generateTXTFiles(outputPath):
         os.remove(outputPath+"/"+file)
     
     return
-
-def outputFilesInTXTFormat(inputPath):
-    outputPath = inputPath + "_TXT"
-    SanitizeDirectory(outputPath)
-    generateTempFiles(inputPath, outputPath)
-    generateTXTFiles(outputPath)
-    cleanTempFiles(outputPath)
-
-def generateFiles(inputPath, format):
-    match format:
-        case "xml":
-            outputPath = inputPath + "_XML"
-        case "txt":
-            outputPath = inputPath + "_TXT"
-        case _:
-            print("Error: invalid format")
-            exit(1)
-    
-    SanitizeDirectory(outputPath)
-    generateTempFiles(inputPath, outputPath)
-    match format:
-        case "xml":
-            generateXMLFiles(outputPath)
-        case "txt":
-            generateTXTFiles(outputPath)
-        
-    cleanTempFiles(outputPath)
-
-main()
-
-
-
-
 
 def generateXMLFiles(outputPath):
     for file in os.listdir(outputPath):
@@ -147,6 +121,12 @@ def generateXMLFiles(outputPath):
         os.remove(outputPath+"/"+file)
     
     return
+
+main()
+
+
+
+
 
 
 
