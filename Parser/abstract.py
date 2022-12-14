@@ -47,6 +47,11 @@ def getPreamble(input_file_name):
 
 def getTitle(pdftotext_file):
     return pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
-
+   
 def getAuthors(pdftotext_file):
-    return "not implemented yet"
+    text = pdftotext_file.read()
+    start = text[text.find('\n'):]#Extract the text after the first line
+    start_index = text.find(start)#Find the index of the first line
+    end_index = text.find("Abstract")#Find the index of the word "Abstract"
+    result = text[start_index:end_index]# Extract the text between the two indices
+    return result

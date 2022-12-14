@@ -118,7 +118,7 @@ def generateXMLFiles(outputPath):
         output_file.write("\t<preamble>" + input_file_name.replace(' ', '_') + '</preamble>\n')#remplace les espaces par des _
         title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()#prend la première ligne du fichier txt
         output_file.write("\t<title>"+title + '</title>\n')#écrit la première ligne dans le fichier txt
-        output_file.write("\t<authors>" + "not implemented yet" + '</authors>\n')#écrit les auteurs dans le fichier txt
+        output_file.write("\t<authors>" +abstract.getAuthors(pdftotext_file) + '</authors>\n')#écrit les auteurs dans le fichier txt
         output_file.write("\t<abstract>"+abstract.readAbstract(pdftotext_file)+"</abstract>\n")#écrit l'abstract dans le fichier txt
         output_file.write("\t<biblio>"+abstract.getReference(pdftotext_file)+"</biblio>\n")#écrit les références dans le fichier txt
         output_file.write('</article>\n')
