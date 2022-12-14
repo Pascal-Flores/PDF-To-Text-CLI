@@ -20,9 +20,13 @@ def main():
         print("Error: cannot specify both xml and txt output")
         exit(1)
     elif args.xml:
-        outputFilesInXMLFormat(path)
+        createFiles(path, "xml")
     elif args.txt:
-        outputFilesInTXTFormat(path)
+        createFiles(path, "txt")
+    else:
+        print("Error: no output format specified")
+        exit(1)
+    
 
 
 ''''''''''''''''''
