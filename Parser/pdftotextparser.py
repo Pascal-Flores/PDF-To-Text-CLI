@@ -119,7 +119,7 @@ def generateXMLFiles(outputPath):
         output_file.write("\t<title>"+ abstract.getTitle(pdftotext_file) + '</title>\n')
         output_file.write("\t<authors>" + abstract.getAuthors(pdftotext_file) + '</authors>\n')
         output_file.write("\t<abstract>"+abstract.readAbstract(pdftotext_file)+"</abstract>\n")
-        output_file.write("\t<reference>"+abstract.getReference(pdftotext_file)+"</reference>\n")
+        output_file.write("\t<biblio>"+abstract.getReference(pdftotext_file).replace("\n", " ").replace(""," ")+"</biblio>\n")
         output_file.write('</article>\n')
 
         pdftotext_file.close()
