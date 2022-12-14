@@ -50,3 +50,15 @@ def getTitle(pdftotext_file):
 
 def getAuthors(pdftotext_file):
     return "not implemented yet"
+
+def getIntroduction(pdftotext_file):
+    return "not implemented yet"
+
+def getCorps(pdftotext_file):
+    return "not implemented yet"
+
+def getConclusion(pdftotext_file):
+    return "not implemented yet"
+
+def getDiscussion(pdftotext_file):
+    return "not implemented yet"

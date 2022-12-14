@@ -88,13 +88,13 @@ def generateTXTFiles(outputPath):
         print (output_file.name)
         
         output_file.write(abstract.getPreamble(input_file_name) + '\n')
-
         output_file.write(abstract.getTitle(pdftotext_file) + '\n')
-
         output_file.write(abstract.getAuthors(pdftotext_file) + '\n')
-
         output_file.write(abstract.readAbstract(pdftotext_file) + '\n')
-        
+        output_file.write(abstract.getIntroduction(pdftotext_file) + '\n')
+        output_file.write(abstract.getCorps(pdftotext_file) + '\n')
+        output_file.write(abstract.getConclusion(pdftotext_file) + '\n')
+        output_file.write(abstract.getDiscussion(pdftotext_file) + '\n')
         output_file.write(abstract.getReference(pdftotext_file) + '\n')
 
         pdftotext_file.close()
@@ -119,6 +119,10 @@ def generateXMLFiles(outputPath):
         output_file.write("\t<title>"+ abstract.getTitle(pdftotext_file) + '</title>\n')
         output_file.write("\t<authors>" + abstract.getAuthors(pdftotext_file) + '</authors>\n')
         output_file.write("\t<abstract>"+abstract.readAbstract(pdftotext_file)+"</abstract>\n")
+        output_file.write("\t<introduction>"+abstract.getIntroduction(pdftotext_file)+"</introduction>\n")
+        output_file.write("\t<corps>"+abstract.getCorps(pdftotext_file)+"</corps>\n")
+        output_file.write("\t<conclusion>"+abstract.getConclusion(pdftotext_file)+"</conclusion>\n")
+        output_file.write("\t<discussion>"+abstract.getDiscussion(pdftotext_file)+"</discussion>\n")
         output_file.write("\t<biblio>"+abstract.getReference(pdftotext_file)+"</biblio>\n")
         output_file.write('</article>\n')
 
