@@ -109,20 +109,18 @@ def generateXMLFiles(outputPath):
         if not file.endswith(".pdf.txt"):
             continue
         else:
-            pdftotext_file = open(outputPath+"/"+file, 'r')#ouvre le fichier txt
-        input_file_name = Path(os.path.basename(file)).stem#input_file_name prend la valeur du nom du fichier sans l'extension
-        output_file = open(outputPath+"/"+Path(input_file_name).stem+".xml", 'w+')#crée le fichier xml
+            pdftotext_file = open(outputPath+"/"+file, 'r')
+        input_file_name = Path(os.path.basename(file)).stem
+        output_file = open(outputPath+"/"+Path(input_file_name).stem+".xml", 'w+')
         print (output_file.name)
 
         output_file.write('<article>\n')
-        output_file.write("\t<preamble>" + input_file_name.replace(' ', '_') + '</preamble>\n')#remplace les espaces par des _
-        title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()#prend la première ligne du fichier txt
-        output_file.write("\t<title>"+title + '</title>\n')#écrit la première ligne dans le fichier txt
-        output_file.write("\t<authors>" + "not implemented yet" + '</authors>\n')#écrit les auteurs dans le fichier txt
-        output_file.write("\t<abstract>"+abstract.readAbstract(pdftotext_file)+"</abstract>\n")#écrit l'abstract dans le fichier txt
-        output_file.write("\t<biblio>"+abstract.getReference(pdftotext_file).replace("\n", " ").replace("", " ")+"</biblio>\n")#écrit les références dans le fichier txt
+        output_file.write("\t<preamble>" + abstract.getPreamble(input_file_name) + '</preamble>\n')
+        output_file.write("\t<title>"+ abstract.getTitle(pdftotext_file) + '</title>\n')
+        output_file.write("\t<authors>" + abstract.getAuthors(pdftotext_file) + '</authors>\n')
+        output_file.write("\t<abstract>"+abstract.readAbstract(pdftotext_file)+"</abstract>\n")
+        output_file.write("\t<reference>"+abstract.getReference(pdftotext_file)+"</reference>\n")
         output_file.write('</article>\n')
-        
 
         pdftotext_file.close()
         output_file.close()
