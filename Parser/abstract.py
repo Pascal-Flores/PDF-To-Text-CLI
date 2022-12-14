@@ -40,7 +40,7 @@ def getReference(file):
     text = file.read()
     index = text.find("References")
     word_extracted =  text[index +10:]
-    return word_extracted  
+    return word_extracted.replace("\n", " ").replace(""," ")
     
 def getPreamble(input_file_name):
     return input_file_name.replace(' ', '_')
