@@ -32,5 +32,13 @@ def readAbstract(f):
             ret.append(line)
         if lastLine == line :
             break
-    
+
     return " ".join(ret)
+  
+
+def getReference(file):
+    text = open(file).read()
+    index = text.index("References")
+    word_extracted =  text[index +10:]
+    return word_extracted  
+    

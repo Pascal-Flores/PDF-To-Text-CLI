@@ -33,7 +33,7 @@ def main():
 ''' TEMP FILES '''
 ''''''''''''''''''
 
-def SanitizeDirectory(path):
+def SanitizeOutputDirectory(path):
     if not os.path.exists(path):
         os.makedirs(path)
     elif os.listdir(path):
@@ -62,9 +62,18 @@ def cleanTempFiles(path):
 ''' OUTPUT '''
 ''''''''''''''
 
+def getPreamble(input_file_name):
+    return input_file_name.replace(' ', '_')
+
+def getTitle(pdftotext_file):
+    return pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
+
+def getAuthors(pdftotext_file):
+    return "not implemented yet"
+
 def createFiles(inputPath, format):
     outputPath = inputPath + "_" + format.upper()
-    SanitizeDirectory(outputPath)
+    SanitizeOutputDirectory(outputPath)
     generateTempFiles(inputPath, outputPath)
     match format:
         case "xml":
@@ -86,12 +95,16 @@ def generateTXTFiles(outputPath):
 
         output_file = open(outputPath+"/"+Path(input_file_name).stem+".txt", 'w+')
         print (output_file.name)
-        output_file.write(input_file_name.replace(' ', '_') + '\n')
-    
-        title = pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
-        output_file.write(title + '\n')
+        
+        output_file.write(getPreamble(input_file_name) + '\n')
+
+        output_file.write(getTitle(pdftotext_file) + '\n')
+
+        output_file.write(getAuthors(pdftotext_file) + '\n')
 
         output_file.write(abstract.readAbstract(pdftotext_file))
+        
+        output_file.write(abstract.getReference(pdftotext_file))
 
         pdftotext_file.close()
         output_file.close()
@@ -127,9 +140,6 @@ def generateXMLFiles(outputPath):
     return
 
 main()
-
-
-
 
 
 
