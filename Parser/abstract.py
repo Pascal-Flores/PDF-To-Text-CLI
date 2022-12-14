@@ -9,23 +9,10 @@ corpus = "CORPUS_TRAIN"
 filename = "*.txt"
 TWOCOLS = True
 
-def main():
-    for filename in os.listdir(corpus):
-        ouverturefichier(os.path.join(corpus, filename))
-        print("")
-
-def ouverturefichier(filename):
-    if filename.endswith(".txt"):
-        # on ouvre le fichier
-        print(filename)
-        f = open(filename, 'r')
-        print(readAbstract(f))
-        # on ferme le fichier
-        f.close()
-
 def readAbstract(f):
     content = []
     lastLine = "-"
+    firstLine = "-"
     for line in f:
         line = line.strip()
         content.append(line)
@@ -47,8 +34,3 @@ def readAbstract(f):
             break
     
     return " ".join(ret)
-    
-    
-
-        
-main()
