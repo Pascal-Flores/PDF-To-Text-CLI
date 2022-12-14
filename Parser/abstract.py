@@ -37,8 +37,8 @@ def readAbstract(f):
   
 
 def getReference(file):
-    text = open(file).read()
-    index = text.index("References")
+    text = file.read()
+    index = text.find("References")
     word_extracted =  text[index +10:]
     return word_extracted  
     
