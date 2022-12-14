@@ -42,3 +42,11 @@ def getReference(file):
     word_extracted =  text[index +10:]
     return word_extracted  
     
+def getPreamble(input_file_name):
+    return input_file_name.replace(' ', '_')
+
+def getTitle(pdftotext_file):
+    return pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
+
+def getAuthors(pdftotext_file):
+    return "not implemented yet"

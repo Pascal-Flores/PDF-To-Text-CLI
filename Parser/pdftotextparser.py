@@ -62,15 +62,6 @@ def cleanTempFiles(path):
 ''' OUTPUT '''
 ''''''''''''''
 
-def getPreamble(input_file_name):
-    return input_file_name.replace(' ', '_')
-
-def getTitle(pdftotext_file):
-    return pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
-
-def getAuthors(pdftotext_file):
-    return "not implemented yet"
-
 def createFiles(inputPath, format):
     outputPath = inputPath + "_" + format.upper()
     SanitizeOutputDirectory(outputPath)
@@ -96,11 +87,11 @@ def generateTXTFiles(outputPath):
         output_file = open(outputPath+"/"+Path(input_file_name).stem+".txt", 'w+')
         print (output_file.name)
         
-        output_file.write(getPreamble(input_file_name) + '\n')
+        output_file.write(abstract.getPreamble(input_file_name) + '\n')
 
-        output_file.write(getTitle(pdftotext_file) + '\n')
+        output_file.write(abstract.getTitle(pdftotext_file) + '\n')
 
-        output_file.write(getAuthors(pdftotext_file) + '\n')
+        output_file.write(abstract.getAuthors(pdftotext_file) + '\n')
 
         output_file.write(abstract.readAbstract(pdftotext_file))
         
