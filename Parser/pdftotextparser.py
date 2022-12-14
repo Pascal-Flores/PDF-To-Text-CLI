@@ -120,7 +120,7 @@ def generateXMLFiles(outputPath):
         output_file.write("\t<title>"+title + '</title>\n')#écrit la première ligne dans le fichier txt
         output_file.write("\t<authors>" + "not implemented yet" + '</authors>\n')#écrit les auteurs dans le fichier txt
         output_file.write("\t<abstract>"+abstract.readAbstract(pdftotext_file)+"</abstract>\n")#écrit l'abstract dans le fichier txt
-        output_file.write("\t<reference>"+abstract.getReference(pdftotext_file)+"</reference>\n")#écrit les références dans le fichier txt
+        output_file.write("\t<biblio>"+abstract.getReference(pdftotext_file)+"</biblio>\n")#écrit les références dans le fichier txt
         output_file.write('</article>\n')
         
 

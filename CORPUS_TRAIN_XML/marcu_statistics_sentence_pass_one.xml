@@ -1,0 +1,78 @@
+<article>
+	<preamble>marcu_statistics_sentence_pass_one.pdf</preamble>
+	<title>Statistics-Based Summarization — Step One: Sentence CompressionKevin Knight and Daniel Marcu</title>
+	<authors>not implemented yet</authors>
+	<abstract>Abstract When humans produce summaries of documents, they do not simply extract sentences and concatenate them. Rather, they create new sentences that are grammati- cal, that cohere with one another, and that capture the most salient pieces of information in the original doc- ument. Given that large collections of text/abstract pairs are available online, it is now possible to envision algorithms that are trained to mimic this process. In this paper, we focus on sentence compression, a sim- pler version of this larger challenge. We aim to achieve two goals simultaneously: our compressions should be grammatical, and they should retain the most impor- tant pieces of information. These two goals can con- ﬂict. We devise both noisy-channel and decision-tree approaches to the problem, and we evaluate results against manual compressions and a simple baseline.</abstract>
+	<reference>
+Barzilay, R.; McKeown, K.; and Elhadad, M. 1999.
+Information fusion in the context of multi-document
+summarization. In Proceedings of the 37th Annual
+Meeting of the Association for Computational Linguis-
+tics (ACL–99), 550–557.
+Berger, A., and Laﬀerty, J. 1999. Information retrieval
+as statistical translation. In Proceedings of the 22nd
+Conference on Research and Development in Informa-
+tion Retrieval (SIGIR–99), 222–229.
+Brown, P.; Della Pietra, S.; Della Pietra, V.; and Mer-
+cer, R. 1993. The mathematics of statistical ma-
+chine translation: Parameter estimation. Computa-
+tional Linguistics 19(2):263–311.
+Church, K. 1988. A stochastic parts program and noun
+phrase parser for unrestricted text. In Proceedings of
+the Second Conference on Applied Natural Language
+Processing, 136–143.
+Collins, M. 1997. Three generative, lexicalized mod-
+els for statistical parsing. In Proceedings of the 35th
+Annual Meeting of the Association for Computational
+Linguistics (ACL–97), 16–23.
+Grefenstette, G. 1998. Producing intelligent tele-
+graphic text reduction to provide an audio scanning
+service for the blind. In Working Notes of the AAAI
+Spring Symposium on Intelligent Text Summarization,
+111–118.
+Jelinek, F. 1997. Statistical Methods for Speech Recog-
+nition. The MIT Press.
+Jing, H., and McKeown, K. 1999. The decomposition
+of human-written summary sentences. In Proceedings
+of the 22nd Conference on Research and Development
+in Information Retrieval (SIGIR–99).
+Knight, K., and Graehl, J. 1998. Machine transliter-
+ation. Computational Linguistics 24(4):599–612.
+Langkilde, I. 2000. Forest-based statistical sentence
+generation. In Proceedings of the 1st Annual Meeting
+of the North American Chapter of the Association for
+Computational Linguistics.
+Linke-Ellis, N. 1999. Closed captioning in Amer-
+ica: Looking beyond compliance. In Proceedings of
+the TAO Workshop on TV Closed Captions for the
+hearing impaired people, 43–59.
+Magerman, D. 1995. Statistical decision-tree models
+for parsing. In Proceedings of the 33rd Annual Meeting
+of the Association for Computational Linguistics, 276–
+283.
+Mani, I., and Maybury, M., eds. 1999. Advances in
+Automatic Text Summarization. The MIT Press.
+Mani, I.; Gates, B.; and Bloedorn, E. 1999. Improving
+summaries by revising them. In Proceedings of the 37th
+Annual Meeting of the Association for Computational
+Linguistics, 558–565.
+McKeown, K.; Klavans, J.; Hatzivassiloglou, V.;
+Barzilay, R.; and Eskin, E. 1999. Towards multidoc-
+ument summarization by reformulation: Progress and
+prospects. In Proceedings of the Sixteenth National
+Conference on Artiﬁcial Intelligence (AAAI–99).
+Quinlan, J. 1993. C4.5: Programs for Machine Learn-
+ing. San Mateo, CA: Morgan Kaufmann Publishers.
+Robert-Ribes, J.; Pfeiﬀer, S.; Ellison, R.; and Burn-
+ham, D. 1999. Semi-automatic captioning of TV pro-
+grams, an Australian perspective. In Proceedings of
+the TAO Workshop on TV Closed Captions for the
+hearing impaired people, 87–100.
+Witbrock, M., and Mittal, V. 1999. Ultra-
+summarization: A statistical approach to generating
+highly condensed non-extractive summaries. In Pro-
+ceedings of the 22nd International Conference on Re-
+search and Development in Information Retrieval (SI-
+GIR’99), Poster Session, 315–316.
+</reference>
+</article>

@@ -1,0 +1,56 @@
+<article>
+	<preamble>probabilistic_sentence_reduction.pdf</preamble>
+	<title>Probabilistic Sentence Reduction Using Support Vector MachinesMinh Le Nguyen, Akira Shimazu, Susumu Horiguchi</title>
+	<authors>not implemented yet</authors>
+	<abstract>Abstract This paper investigates a novel application of sup- port vector machines (SVMs) for sentence reduction. We also propose a new probabilistic sentence reduc- tion method based on support vector machine learn- ing. Experimental results show that the proposed methods outperform earlier methods in term of sen- tence reduction performance.</abstract>
+	<reference>
+A. Borthwick, “A Maximum Entropy Approach
+to Named Entity Recognition”, Ph.D the-
+sis, Computer Science Department, New York
+University (1999).
+C.-C. Chang and C.-J. Lin, “LIB-
+SVM: a library for support vec-
+tor machines”, Software available at
+http://www.csie.ntu.edu.tw/ cjlin/libsvm.
+H. Jing, “Sentence reduction for automatic
+text summarization”, In Proceedings of the
+First Annual Meeting of the North Ameri-
+can Chapter of the Association for Compu-
+tational Linguistics NAACL-2000.
+T.T. Hastie and R. Tibshirani, “Classification
+by pairwise coupling”, The Annals of Statis-
+tics, 26(1): pp. 451-471, 1998.
+C.-W. Hsu and C.-J. Lin, “A comparison of
+methods for multi-class support vector ma-
+chines”, IEEE Transactions on Neural Net-
+works, 13, pp. 415-425, 2002.
+K. Knight and D. Marcu, “Summarization be-
+yond sentence extraction: A Probabilistic ap-
+proach to sentence compression”, Artificial
+Intelligence 139: pp. 91-107, 2002.
+C.Y. Lin, “Improving Summarization Perfor-
+mance by Sentence Compression — A Pi-
+lot Study”, Proceedings of the Sixth Inter-
+national Workshop on Information Retrieval
+with Asian Languages, pp.1-8, 2003.
+C. Macleod and R. Grishman, “COMMLEX
+syntax Reference Manual”; Proteus Project,
+New York University (1995).
+M.L. Nguyen and S. Horiguchi, “A new sentence
+reduction based on Decision tree model”,
+Proceedings of 17th Pacific Asia Conference
+on Language, Information and Computation,
+pp. 290-297, 2003
+V. Vapnik, “The Natural of Statistical Learning
+Theory”, New York: Springer-Verlag, 1995.
+J. Platt,“ Probabilistic outputs for support vec-
+tor machines and comparison to regularized
+likelihood methods,” in Advances in Large
+Margin Classifiers, Cambridege, MA: MIT
+Press, 2000.
+B. Scholkopf et al, “Comparing Support Vec-
+tor Machines with Gausian Kernels to Radius
+Basis Function Classifers”, IEEE Trans. Sig-
+nal Procesing, 45, pp. 2758-2765, 1997.
+</reference>
+</article>
