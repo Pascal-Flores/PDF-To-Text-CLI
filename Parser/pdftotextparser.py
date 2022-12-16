@@ -7,7 +7,7 @@ from pathlib import Path
 
 import abstract
 
-def main():
+def main():    
     parser = argparse.ArgumentParser()#argument parser
     parser.add_argument("path", help="path to the directory containing the pdf files")#argument path
     parser.add_argument("-x", "--xml", action="store_true",  help="output file will be in xml format")#argument xml
@@ -26,6 +26,8 @@ def main():
     else:#si aucun argument n'est présent
         print("Error: no output format specified")
         exit(1)
+        
+    
     
 
 
@@ -114,16 +116,17 @@ def generateXMLFiles(outputPath):
         output_file = open(outputPath+"/"+Path(input_file_name).stem+".xml", 'w+')
         print (output_file.name)
 
+        extracter = abstract.extract(pdftotext_file)
         output_file.write('<article>\n')
-        output_file.write("\t<preamble>" + abstract.getPreamble(input_file_name) + '</preamble>\n')
-        output_file.write("\t<title>"+ abstract.getTitle(pdftotext_file) + '</title>\n')
-        output_file.write("\t<authors>" + abstract.getAuthors(pdftotext_file) + '</authors>\n')
-        output_file.write("\t<abstract>"+abstract.readAbstract(pdftotext_file)+"</abstract>\n")
-        output_file.write("\t<introduction>"+abstract.getIntroduction(pdftotext_file)+"</introduction>\n")
-        output_file.write("\t<corps>"+abstract.getCorps(pdftotext_file)+"</corps>\n")
-        output_file.write("\t<conclusion>"+abstract.getConclusion(pdftotext_file)+"</conclusion>\n")
-        output_file.write("\t<discussion>"+abstract.getDiscussion(pdftotext_file)+"</discussion>\n")
-        output_file.write("\t<biblio>"+abstract.getReference(pdftotext_file)+"</biblio>\n")
+        output_file.write("\t<preamble>" + extracter.getPreamble(input_file_name) + '</preamble>\n')
+        output_file.write("\t<title>"+ extracter.getTitle() + '</title>\n')
+        output_file.write("\t<authors>" + extracter.getAuthors() + '</authors>\n')
+        output_file.write("\t<abstract>"+extracter.getAbstract()+"</abstract>\n")
+        #output_file.write("\t<introduction>"+extracter.getIntroduction()+"</introduction>\n")
+        #output_file.write("\t<corps>"+extracter.getCorps()+"</corps>\n")
+        #output_file.write("\t<conclusion>"+extracter.getConclusion()+"</conclusion>\n")
+        #output_file.write("\t<discussion>"+extracter.getDiscussion()+"</discussion>\n")
+        output_file.write("\t<biblio>"+extracter.getReference()+"</biblio>\n")
         output_file.write('</article>\n')
 
         pdftotext_file.close()

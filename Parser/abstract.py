@@ -8,64 +8,63 @@ import string
 corpus = "CORPUS_TRAIN"
 filename = "*.txt"
 TWOCOLS = True
+ 
+class extract():
+    def __init__(self, pdftotext_file):
+        self.fileString = pdftotext_file.read().splitlines()# list of lines  
+        
+    def getNextTitle(self, title_name):
+        for line in self.fileString:
+            if title_name.upper() in line.upper():
+                return self.fileString.index(line)
+        return 0
+        
+    def getPreamble(self, input_file_name):
+        return input_file_name.replace(' ', '_')              
 
-def readAbstract(f):
-    content = []
-    lastLine = "-"
-    firstLine = "-"
-    for line in f:
-        line = line.strip()
-        content.append(line)
-        if line[0].isupper() and lastLine[-1] != ".":
-            #si la ligne commence par une majuscule et que la ligne précédente ne se termine pas par un point
-            firstLine = line
-        if "INTRODUCTION" in line.upper():#si on trouve le mot introduction
-            break
-        lastLine = line
+    def getTitle(self):
+        # trier avec regex xx/xx et 4chffres d'affilés xx-xx
+        txt = ""
+        while txt == "":
+            txt = self.fileString.pop(0)
+            x = re.findall("[0-9]", txt)
+            if len(txt) < 6:
+                txt = ""
+            if len(x) > 1:#si pas de chiffre
+                txt = ""
+        
+        return txt+" "+self.fileString.pop(0)
 
-    ret = []
-    start = False
-    for line in content:
-        if firstLine == line or "ABSTRACT" in line.upper() :
-            start = True
-        if start:
-            ret.append(line)
-        if lastLine == line :
-            break
-
-    return " ".join(ret)
-  
-
-def getReference(file):
-    text = file.read()
-    index = text.find("References")
-    word_extracted =  text[index +10:]
-    return word_extracted.replace("\n", " ").replace(""," ")
+    def getAuthors(self):
+        num = self.getNextTitle("ABSTRACT")
+        ret = ""
+        for i in range(num):
+            ret += self.fileString.pop(0)
+        return ret
     
-def getPreamble(input_file_name):
-    return input_file_name.replace(' ', '_')
+    def getAbstract(self):
+        num = self.getNextTitle("INTRODUCTION")
+        ret = ""
+        for i in range(num):
+            ret += self.fileString.pop(0)+" "
+        return ret
 
-def getTitle(pdftotext_file):
-    return pdftotext_file.readline().strip()+pdftotext_file.readline().strip()
+    def getIntroduction(self):
+        return "not implemented yet"
 
-def getAuthors(pdftotext_file):
-    
-    text = pdftotext_file.read()
-    start = text[text.find('\n'):]#Extract the text after the first line
-    start_index = text.find(start)#Find the index of the first line
-    end_index = text.find("Abstract")#Find the index of the word "Abstract"
-    result = text[start_index:end_index]# Extract the text between the two indices
-    return result
-   
+    def getCorps(self):
+        return "not implemented yet"
 
-def getIntroduction(pdftotext_file):
-    return "not implemented yet"
+    def getConclusion(self):
+        return "not implemented yet"
 
-def getCorps(pdftotext_file):
-    return "not implemented yet"
+    def getDiscussion(self):
+        return "not implemented yet"
 
-def getConclusion(pdftotext_file):
-    return "not implemented yet"
-
-def getDiscussion(pdftotext_file):
-    return "not implemented yet"
+    def getReference(self):
+        num = self.getNextTitle("REFERENCES")
+        ret = ""
+        while num < len(self.fileString):
+            ret += self.fileString.pop(num)
+            num+=1
+        return ret
