@@ -50,7 +50,15 @@ class extract():
         return ret
 
     def getIntroduction(self):
-        return "not implemented yet"
+        text = f.read()
+        star_index = text.find("Introduction")
+        end_index = text.find("Work")
+        result = text[star_index:end_index]
+        if end_index == -1: 
+            end_index = text.find(" Method ")
+            result = text[star_index:end_index]
+        return result
+
 
     def getCorps(self):
         return "not implemented yet"
