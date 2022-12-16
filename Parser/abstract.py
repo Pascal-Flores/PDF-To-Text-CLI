@@ -15,9 +15,19 @@ class extract():
         
     def getNextTitle(self, title_name):
         for line in self.fileString:
-            if title_name.upper() in line.upper():
+            
+            #si il trouve chiffre romain regex premier mot & title_name.upper() in line.upper(): ou
+            if  len(re.findall("^[IVXLCDM]", line)) and title_name.upper() in line.upper():
                 return self.fileString.index(line)
-        return 0
+            
+            #si il trouve chiffre arabes regex & title_name.upper() in line.upper(): ou
+            if len(re.findall("^[0-9]", line)) and title_name.upper() in line.upper():
+                return self.fileString.index(line)
+            
+            if len(re.findall("^"+title_name.upper(), line.upper() )):#si title_name est le premier mot de la ligne
+                return self.fileString.index(line)
+            
+        return -1
         
     def getPreamble(self, input_file_name):
         return input_file_name.replace(' ', '_')              
@@ -50,14 +60,15 @@ class extract():
         return ret
 
     def getIntroduction(self):
-        text = f.read()
-        star_index = text.find("Introduction")
-        end_index = text.find("Work")
-        result = text[star_index:end_index]
-        if end_index == -1: 
-            end_index = text.find(" Method ")
-            result = text[star_index:end_index]
-        return result
+        num = self.getNextTitle("WORK")
+        if num == -1: 
+            num = self.getNextTitle(" Method ")
+            
+        ret = ""
+        for i in range(num):
+            ret += self.fileString.pop(0)+" "
+        return ret
+        #result = text[star_index:end_index]
 
 
     def getCorps(self):
