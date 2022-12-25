@@ -145,8 +145,8 @@ def generateXMLFiles(outputPath, xmlplus):
                 output_file.write("\t<discussion>"+extracter.getDiscussion(["Conclusion","references"])+"</discussion>\n")
                 output_file.write("\t<conclusion>"+extracter.getConclusion(["References"])+"</conclusion>\n")
             
-            output_file.write("\t<biblio>"+extracter.getReference()+"</biblio>\n")
-            output_file.write('</article>')
+        output_file.write("\t<biblio>"+extracter.getReference()+"</biblio>\n")
+        output_file.write('</article>')
 
         pdftotext_file.close()
         output_file.close()
