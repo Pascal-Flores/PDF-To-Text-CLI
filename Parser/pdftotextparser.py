@@ -123,9 +123,9 @@ def generateXMLFiles(outputPath):
         output_file.write("\t<authors>" + extracter.getAuthors() + '</authors>\n')
         output_file.write("\t<abstract>"+extracter.getAbstract()+"</abstract>\n")
         output_file.write("\t<introduction>"+extracter.getIntroduction()+"</introduction>\n")
-        #output_file.write("\t<corps>"+extracter.getCorps()+"</corps>\n")
-        #output_file.write("\t<conclusion>"+extracter.getConclusion()+"</conclusion>\n")
-        #output_file.write("\t<discussion>"+extracter.getDiscussion()+"</discussion>\n")
+        output_file.write("\t<corps>"+extracter.getCorps()+"</corps>\n")
+        output_file.write("\t<conclusion>"+extracter.getConclusion()+"</conclusion>\n")
+        output_file.write("\t<discussion>"+extracter.getDiscussion()+"</discussion>\n")
         output_file.write("\t<biblio>"+extracter.getReference()+"</biblio>\n")
         output_file.write('</article>\n')
 

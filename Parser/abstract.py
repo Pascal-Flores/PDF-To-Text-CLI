@@ -14,16 +14,26 @@ class extract():
         self.fileString = pdftotext_file.read().splitlines()# list of lines  
         
     def getNextTitle(self, title_name):
+        #
+        nextTitle = False
+        if title_name == "":
+            nextTitle = True
         for line in self.fileString:
             
             #si il trouve chiffre romain regex premier mot & title_name.upper() in line.upper(): ou
-            if  len(re.findall("^[IVXLCDM]", line)) and title_name.upper() in line.upper():
+            if  len(re.findall("^[IVXLCDM]* ", line)) and (title_name.upper() in line.upper() or nextTitle):
                 return self.fileString.index(line)
             
             #si il trouve chiffre arabes regex & title_name.upper() in line.upper(): ou
-            if len(re.findall("^[0-9]", line)) and title_name.upper() in line.upper():
-                return self.fileString.index(line)
+            if len(re.findall("^[0-9]", line)) and (title_name.upper() in line.upper() or nextTitle):
+                #pour tout les mots de la ligne
+                for word in line.split():
+                    #si la premiere lettre est une majuscule
+                    if word[0].isupper():
+                        return self.fileString.index(line)
             
+            if "conclusion".upper() == title_name.upper() or nextTitle:
+                continue
             if len(re.findall("^"+title_name.upper(), line.upper() )):#si title_name est le premier mot de la ligne
                 return self.fileString.index(line)
             
@@ -60,19 +70,27 @@ class extract():
         return ret
 
     def getIntroduction(self):
-        num = self.getNextTitle("WORK")
+        num = self.getNextTitle("WORK ")
         if num == -1: 
             num = self.getNextTitle(" Method ")
+            if num == -1:
+                num = self.getNextTitle("")
             
+        print(self.fileString[num])
+        
         ret = ""
         for i in range(num):
             ret += self.fileString.pop(0)+" "
         return ret
-        #result = text[star_index:end_index]
 
 
     def getCorps(self):
-        return "not implemented yet"
+        num = self.getNextTitle("conclusion")
+        ret = ""
+        for i in range(num):
+            ret += self.fileString.pop(0)+" "
+        return ret
+        
 
     def getConclusion(self):
         return "not implemented yet"
