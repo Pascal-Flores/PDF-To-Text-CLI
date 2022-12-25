@@ -65,14 +65,31 @@ def cleanTempFiles(path):
 ''''''''''''''
 
 def createFiles(inputPath, format):
+
+    print("Please select the files you want to parse:")
+    i = 0
+    for file in os.listdir(inputPath):
+        if file.endswith(".pdf"):
+            print(str(i)+'. '+file)
+            i += 1
+    print("Enter the number of the files you want to parse, separated by a space:")
+    filesIndexes = input().split()
+    files = []
+    i = 0
+    for file in os.listdir(inputPath):
+        if file.endswith(".pdf"):
+            if str(i) in filesIndexes:
+                files.append(file)
+            i += 1
+
     outputPath = inputPath + "_" + format.upper()#outputPath prend la valeur de l'argument path + _ + xml ou txt
     SanitizeOutputDirectory(outputPath)#nettoie le dossier de sortie
-    generateTempFiles(inputPath, outputPath)#génère les fichiers temporaires
+    generateTempFiles(inputPath, outputPath, files)#génère les fichiers temporaires
     match format:#match le format
         case "xml":
-            generateXMLFiles(outputPath)
+            generateXMLFiles(outputPath, files)
         case "txt":
-            generateTXTFiles(outputPath)
+            generateTXTFiles(outputPath, files)
     cleanTempFiles(outputPath)
     exit(0)
 

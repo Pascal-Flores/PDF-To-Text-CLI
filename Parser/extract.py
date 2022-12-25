@@ -81,7 +81,6 @@ class extract():
     """
     def getAuthors(self):
         num = self.getNextTitle(["ABSTRACT"])#on cherche le prochain titre qui est abstract
-        print(self.fileString[num])
         ret = ""
         for i in range(num):
             ret += self.fileString.pop(0)

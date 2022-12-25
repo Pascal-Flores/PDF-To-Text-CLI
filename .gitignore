@@ -1,1 +1,2 @@
 CORPUS_TRAIN_TXT/*
+Parser/__pycache__/*.pyc
