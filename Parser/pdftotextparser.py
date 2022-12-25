@@ -5,7 +5,7 @@ import subprocess
 import argparse
 from pathlib import Path
 
-import abstract
+import extract
 
 def main():    
     parser = argparse.ArgumentParser()#argument parser
@@ -89,15 +89,21 @@ def generateTXTFiles(outputPath):
         output_file = open(outputPath+"/"+Path(input_file_name).stem+".txt", 'w+')
         print (output_file.name)
         
-        output_file.write(abstract.getPreamble(input_file_name) + '\n')
-        output_file.write(abstract.getTitle(pdftotext_file) + '\n')
-        output_file.write(abstract.getAuthors(pdftotext_file) + '\n')
-        output_file.write(abstract.readAbstract(pdftotext_file) + '\n')
-        output_file.write(abstract.getIntroduction(pdftotext_file) + '\n')
-        output_file.write(abstract.getCorps(pdftotext_file) + '\n')
-        output_file.write(abstract.getConclusion(pdftotext_file) + '\n')
-        output_file.write(abstract.getDiscussion(pdftotext_file) + '\n')
-        output_file.write(abstract.getReference(pdftotext_file) + '\n')
+        extracter = extract.extract(pdftotext_file)
+        output_file.write("Préamble :\n\t" + extracter.getPreamble(input_file_name))
+        output_file.write("\nTitre :\n\t"+ extracter.getTitle())
+        output_file.write("\nAuteurs :\n\t" + extracter.getAuthors())
+        output_file.write("\nAbstract :\n\t"+extracter.getAbstract())
+        output_file.write("\nIntroduction :\n\t"+extracter.getIntroduction())
+        output_file.write("\nCorps :\n\t"+extracter.getCorps())
+        if "CONCLUSION" in extracter.fileString[extracter.getNextTitle(["Conclusion","Discussion"])]:
+            output_file.write("\nConclusion :\n\t"+extracter.getConclusion(["Discussion","references"]))
+            output_file.write("\nDiscussion :\n\t"+extracter.getDiscussion(["references"]))
+        else : #Discussion
+            output_file.write("\nDiscussion :\n\t"+extracter.getDiscussion(["Conclusion","references"]))
+            output_file.write("\nConclusion :\n\t"+extracter.getConclusion(["References"]))
+            
+        output_file.write("\nBiblio :\n\t"+extracter.getReference())
 
         pdftotext_file.close()
         output_file.close()
@@ -116,18 +122,23 @@ def generateXMLFiles(outputPath):
         output_file = open(outputPath+"/"+Path(input_file_name).stem+".xml", 'w+')
         print (output_file.name)
 
-        extracter = abstract.extract(pdftotext_file)
+        extracter = extract.extract(pdftotext_file)
         output_file.write('<article>\n')
         output_file.write("\t<preamble>" + extracter.getPreamble(input_file_name) + '</preamble>\n')
         output_file.write("\t<title>"+ extracter.getTitle() + '</title>\n')
-        output_file.write("\t<authors>" + extracter.getAuthors() + '</authors>\n')
+        output_file.write("\t<auteur>" + extracter.getAuthors() + '</auteur>\n')
         output_file.write("\t<abstract>"+extracter.getAbstract()+"</abstract>\n")
         output_file.write("\t<introduction>"+extracter.getIntroduction()+"</introduction>\n")
         output_file.write("\t<corps>"+extracter.getCorps()+"</corps>\n")
-        output_file.write("\t<conclusion>"+extracter.getConclusion()+"</conclusion>\n")
-        output_file.write("\t<discussion>"+extracter.getDiscussion()+"</discussion>\n")
+        if "CONCLUSION" in extracter.fileString[extracter.getNextTitle(["Conclusion","Discussion"])]:
+            output_file.write("\t<conclusion>"+extracter.getConclusion(["Discussion","references"])+"</conclusion>\n")
+            output_file.write("\t<discussion>"+extracter.getDiscussion(["references"])+"</discussion>\n")
+        else : #Discussion
+            output_file.write("\t<discussion>"+extracter.getDiscussion(["Conclusion","references"])+"</discussion>\n")
+            output_file.write("\t<conclusion>"+extracter.getConclusion(["References"])+"</conclusion>\n")
+            
         output_file.write("\t<biblio>"+extracter.getReference()+"</biblio>\n")
-        output_file.write('</article>\n')
+        output_file.write('</article>')
 
         pdftotext_file.close()
         output_file.close()
