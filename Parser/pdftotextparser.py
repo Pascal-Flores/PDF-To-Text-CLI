@@ -11,6 +11,7 @@ def main():
     parser = argparse.ArgumentParser()#argument parser
     parser.add_argument("path", help="path to the directory containing the pdf files")#argument path
     parser.add_argument("-x", "--xml", action="store_true",  help="output file will be in xml format")#argument xml
+    parser.add_argument("--xmlplus", action="store_true", help="output file will be in xml format with additional information")
     parser.add_argument("-t", "--txt", action="store_true", help="output file will be in txt format")#argument txt
 
     args = parser.parse_args()#parse les arguments
@@ -19,8 +20,11 @@ def main():
     if args.xml and args.txt:#si les deux arguments sont présents
         print("Error: cannot specify both xml and txt output")
         exit(1)
-    elif args.xml:#si l'argument xml est présent
-        createFiles(path, "xml")
+    elif args.xml or args.xmlplus:#si l'argument xml est présent
+        if args.xmlplus:
+            createFiles(path, "xml", True)
+        else:
+            createFiles(path, "xml", False)
     elif args.txt:#si l'argument txt est présent
         createFiles(path, "txt")
     else:#si aucun argument n'est présent
@@ -64,7 +68,7 @@ def cleanTempFiles(path):
 ''' OUTPUT '''
 ''''''''''''''
 
-def createFiles(inputPath, format):
+def createFiles(inputPath, format, xmlplus = False):
 
     print("Please select the files you want to parse:")
     i = 0
@@ -87,13 +91,13 @@ def createFiles(inputPath, format):
     generateTempFiles(inputPath, outputPath, files)#génère les fichiers temporaires
     match format:#match le format
         case "xml":
-            generateXMLFiles(outputPath, files)
+            generateXMLFiles(outputPath, xmlplus)
         case "txt":
-            generateTXTFiles(outputPath, files)
+            generateTXTFiles(outputPath)
     cleanTempFiles(outputPath)
     exit(0)
 
-def generateTXTFiles(outputPath, files):
+def generateTXTFiles(outputPath):
     for file in os.listdir(outputPath):
         if not file.endswith(".pdf.txt"):
             continue
@@ -109,15 +113,6 @@ def generateTXTFiles(outputPath, files):
         output_file.write("\nTitre :\n\t"+ extracter.getTitle())
         output_file.write("\nAuteurs :\n\t" + extracter.getAuthors())
         output_file.write("\nAbstract :\n\t"+extracter.getAbstract())
-        output_file.write("\nIntroduction :\n\t"+extracter.getIntroduction())
-        output_file.write("\nCorps :\n\t"+extracter.getCorps())
-        if "CONCLUSION" in extracter.fileString[extracter.getNextTitle(["Conclusion","Discussion"])]:
-            output_file.write("\nConclusion :\n\t"+extracter.getConclusion(["Discussion","references"]))
-            output_file.write("\nDiscussion :\n\t"+extracter.getDiscussion(["references"]))
-        else : #Discussion
-            output_file.write("\nDiscussion :\n\t"+extracter.getDiscussion(["Conclusion","references"]))
-            output_file.write("\nConclusion :\n\t"+extracter.getConclusion(["References"]))
-            
         output_file.write("\nBiblio :\n\t"+extracter.getReference())
 
         pdftotext_file.close()
@@ -125,7 +120,7 @@ def generateTXTFiles(outputPath, files):
     
     return
 
-def generateXMLFiles(outputPath, files):
+def generateXMLFiles(outputPath, xmlplus):
     for file in os.listdir(outputPath):
         if not file.endswith(".pdf.txt"):
             continue
@@ -140,17 +135,18 @@ def generateXMLFiles(outputPath, files):
         output_file.write("\t<title>"+ extracter.getTitle() + '</title>\n')
         output_file.write("\t<auteur>" + extracter.getAuthors() + '</auteur>\n')
         output_file.write("\t<abstract>"+extracter.getAbstract()+"</abstract>\n")
-        output_file.write("\t<introduction>"+extracter.getIntroduction()+"</introduction>\n")
-        output_file.write("\t<corps>"+extracter.getCorps()+"</corps>\n")
-        if "CONCLUSION" in extracter.fileString[extracter.getNextTitle(["Conclusion","Discussion"])]:
-            output_file.write("\t<conclusion>"+extracter.getConclusion(["Discussion","references"])+"</conclusion>\n")
-            output_file.write("\t<discussion>"+extracter.getDiscussion(["references"])+"</discussion>\n")
-        else : #Discussion
-            output_file.write("\t<discussion>"+extracter.getDiscussion(["Conclusion","references"])+"</discussion>\n")
-            output_file.write("\t<conclusion>"+extracter.getConclusion(["References"])+"</conclusion>\n")
+        if xmlplus:
+            output_file.write("\t<introduction>"+extracter.getIntroduction()+"</introduction>\n")
+            output_file.write("\t<corps>"+extracter.getCorps()+"</corps>\n")
+            if "CONCLUSION" in extracter.fileString[extracter.getNextTitle(["Conclusion","Discussion"])]:
+                output_file.write("\t<conclusion>"+extracter.getConclusion(["Discussion","references"])+"</conclusion>\n")
+                output_file.write("\t<discussion>"+extracter.getDiscussion(["references"])+"</discussion>\n")
+            else : #Discussion
+                output_file.write("\t<discussion>"+extracter.getDiscussion(["Conclusion","references"])+"</discussion>\n")
+                output_file.write("\t<conclusion>"+extracter.getConclusion(["References"])+"</conclusion>\n")
             
-        output_file.write("\t<biblio>"+extracter.getReference()+"</biblio>\n")
-        output_file.write('</article>')
+            output_file.write("\t<biblio>"+extracter.getReference()+"</biblio>\n")
+            output_file.write('</article>')
 
         pdftotext_file.close()
         output_file.close()
