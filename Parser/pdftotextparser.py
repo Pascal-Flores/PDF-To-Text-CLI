@@ -42,8 +42,8 @@ def SanitizeOutputDirectory(path):
         for file in os.listdir(path):
             os.remove(path+"/"+file)
 
-def generateTempFiles(inputPath, outputPath):
-    for file in os.listdir(inputPath):
+def generateTempFiles(inputPath, outputPath, files):
+    for file in files:
         if file.endswith(".pdf"):
             pdf_file = Path(inputPath + "/" + file)
             txt_file = Path(outputPath+ "/" + file + ".txt")
@@ -76,9 +76,8 @@ def createFiles(inputPath, format):
     cleanTempFiles(outputPath)
     exit(0)
 
-def generateTXTFiles(outputPath):
+def generateTXTFiles(outputPath, files):
     for file in os.listdir(outputPath):
-        print(file)
         if not file.endswith(".pdf.txt"):
             continue
         else:
@@ -87,7 +86,6 @@ def generateTXTFiles(outputPath):
         input_file_name = Path(os.path.basename(file)).stem
 
         output_file = open(outputPath+"/"+Path(input_file_name).stem+".txt", 'w+')
-        print (output_file.name)
         
         extracter = extract.extract(pdftotext_file)
         output_file.write("Préamble :\n\t" + extracter.getPreamble(input_file_name))
@@ -107,20 +105,17 @@ def generateTXTFiles(outputPath):
 
         pdftotext_file.close()
         output_file.close()
-        os.remove(outputPath+"/"+file)
     
     return
 
-def generateXMLFiles(outputPath):
+def generateXMLFiles(outputPath, files):
     for file in os.listdir(outputPath):
-        print(file)
         if not file.endswith(".pdf.txt"):
             continue
         else:
             pdftotext_file = open(outputPath+"/"+file, 'r')
         input_file_name = Path(os.path.basename(file)).stem
         output_file = open(outputPath+"/"+Path(input_file_name).stem+".xml", 'w+')
-        print (output_file.name)
 
         extracter = extract.extract(pdftotext_file)
         output_file.write('<article>\n')
@@ -142,7 +137,6 @@ def generateXMLFiles(outputPath):
 
         pdftotext_file.close()
         output_file.close()
-        os.remove(outputPath+"/"+file)
     
     return
 
