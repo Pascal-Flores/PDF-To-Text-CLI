@@ -26,6 +26,8 @@ class extract():
         nextTitle = False
         for line in self.fileString:
             for title_name in titles:
+                if title_name == "REFERENCES":
+                    print (line)
                 if title_name == "":
                     nextTitle = True
                 #si il trouve chiffre romain regex premier mot & title_name.upper() in line.upper(): ou
@@ -47,8 +49,8 @@ class extract():
                 if "conclusion".upper() == title_name.upper() or nextTitle:
                     continue
                 if len(re.findall("^"+title_name.upper(), line.upper() )) and line[0].isupper():#si il trouve le titre
-                    self.typeTitre = "-"
                     return self.fileString.index(line)
+                    
             
         return -1
      
@@ -83,7 +85,7 @@ class extract():
         num = self.getNextTitle(["ABSTRACT"])#on cherche le prochain titre qui est abstract
         ret = ""
         for i in range(num):
-            ret += self.fileString.pop(0)
+            ret += self.fileString.pop(0)+" "
         return ret
     
     """
@@ -96,7 +98,7 @@ class extract():
             num = self.getNextTitle([""])#si pas d'introduction, on prend le prochain titre
         ret = ""
         for i in range(num):
-            ret += self.fileString.pop(0)
+            ret += self.fileString.pop(0)+" "
         return ret
 
     """
@@ -108,7 +110,7 @@ class extract():
         ret += self.fileString.pop(0)#on retire le titre introduction
         num = self.getNextTitle([""])#on cherche le prochain titre
         for i in range(num):
-            ret += self.fileString.pop(0)
+            ret += self.fileString.pop(0)+" "
         return ret
 
     """
@@ -121,7 +123,7 @@ class extract():
             num = self.getNextTitle(["Reference"])#si pas de conclusion ou discussion, on prend le prochain titre qui est reference
         ret = ""
         for i in range(num):
-            ret += self.fileString.pop(0)
+            ret += self.fileString.pop(0)+" "
         return ret
         
     """
@@ -132,7 +134,7 @@ class extract():
         num = self.getNextTitle(arg)#on cherche le/les prochains titre(s) qui est/sont dans arg
         ret = ""
         for i in range(num):
-            ret += self.fileString.pop(0)
+            ret += self.fileString.pop(0)+" "
         return ret
 
     """
@@ -143,7 +145,7 @@ class extract():
         num = self.getNextTitle(arg)#on cherche le/les prochains titre(s) qui est/sont dans arg
         ret = ""
         for i in range(num):
-            ret += self.fileString.pop(0)
+            ret += self.fileString.pop(0)+" "
         return ret
     
     """
@@ -151,9 +153,11 @@ class extract():
     return : références de l'article
     """
     def getReference(self):
-        num = 0
+        num = self.getNextTitle(["REFERENCES"])
+        if num == -1:
+            num = self.getNextTitle([""])
         ret = ""
+        print (self.fileString[1])
         while num < len(self.fileString):
-            ret += self.fileString.pop(0)
-            num+=1
+            ret += self.fileString.pop(num)+" "
         return ret
