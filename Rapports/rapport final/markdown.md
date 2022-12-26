@@ -53,7 +53,7 @@ Nous verrons au travers de ce rapport la méthode de travail mise en place, les 
 
 Pour travailler dans meilleures conditions et développer efficacement, nous avons choisi de développer notre outil en Python, pour sa facilité d'utilisation et sa grande polyvalence. \
 Nous avons également choisi d'utiliser Github pour la gestion de version. \ 
-Pour la rédaction de ce rapport, nous avons utilisé le langage de balisage Markdown, ensuite converti en lateX puis en PDF grâce à l'outil Pandoc @pandoc qui est un langage de balisage léger, facile à utiliser et qui permet de générer des documents de qualité. \
+Pour la rédaction de ce rapport, nous avons utilisé le langage de balisage Markdown, ensuite converti en lateX puis en PDF grâce à l'outil Pandoc [@pandoc] qui est un langage de balisage léger, facile à utiliser et qui permet de générer des documents de qualité. \
 
 ## L'outil pdftotext
 
@@ -64,10 +64,10 @@ Afin de pouvoir extraire les données des fichiers PDF à traiter, nous avons ai
 
 Notre outil, appelé sobrement la "MOAI" (pour Machine à Obtentir Admirablement des Informations), lorsqu'il est lancé, prend comme paramètres les options suivantes :
 
-  + -t (--txt) ou -x (--xml) ou --xml-plus, qui permet de spécifier le format de sortie, avec respectivement une sortie texte, une sortie XML ou une sortie XML avec des balises supplémentaires  
+  + -t (--txt) ou -x (--xml) ou --xmlplus, qui permet de spécifier le format de sortie, avec respectivement une sortie texte, une sortie XML ou une sortie XML avec des balises supplémentaires  
   + Le chemin vers le dossier contenant les fichiers PDF à traiter 
 
-La MOAI demande alors à l'utilisateur quels sont les fichiers PDF à traiter dans le dossier spécifié, en lui demandant d'entrer le numéro de chaque fichier à traiter, séparés par des virgules. \
+La MOAI demande alors à l'utilisateur quels sont les fichiers PDF à traiter dans le dossier spécifié, en lui demandant d'entrer le numéro de chaque fichier à traiter, séparés par des espaces. \
 Une fois les fichiers sélectionnés, la MOAI convertit les fichier PDF en fichiers textes temporaires grâce à pdftotext, puis récupère les données dont nous avons besoin, soit le nom du fichier d'origine, le titre de l'article, les auteurs, le résumé de l'article, et la bibliographie de l'article. Dans le cas de l'utilisation --xml-plus, la MOAI récupère également l'introduction, le corps, la conclusion et la discussion de l'article. \
 Les fichiers de sortie sont ensuite stockées dans un dossier nommé de la même manière que le dossier d'entrée, mais accompagné du suffixe "_XML" ou "_TXT" selon le format choisi. \
 La MOAI supprime finalemet les fichiers temporaires créés. \
@@ -75,9 +75,24 @@ La MOAI supprime finalemet les fichiers temporaires créés. \
 
 # Résultats
 
+## Méthode de calcul des résultats
+
+Afin d'évaluer les performances de la MOAI, nous avons procédé de la manière suivante : \
+Nous avons tout d'abord converti le corpus de test au format xml en utilisant l'option --xmlplus, afin de parser toutes les sections des fichiers d'entrée. Ensuite, nous avons comparé chaque fichier d'entrée avec son fichier de sortie, et avons reporté dans un tableau, pour chaque section que la MOAI devait parser, si les sections étaient bien délimitées. Si la section est correctement délimitée, la case du tableau vaut 1, sinon elle vaut zéro. \
+Nous avons ensuite effectué un calcul de l'efficacité de la MOAI en calculant le ratio **sections trouvées par la MOAI / nombre de sections total**, et l'avons converti en pourcentage pour un résultat plus lisible. \
+Nous avons enfin effectué une moyenne du parsing de chaque section ainsi que de l'efficacité de parsing de la MOAI. Nous avons ainsi obtenu les résultats suivants :
+
+![Tableau reportant l'efficacité de la MOAI](images/resultats.png)
+
+## Analyse des résultats
+
+Au niveau du parsing des différentes sections, nous pouvons voir que les sections les plus faciles à parser sont les références, talonnées par la conclusion / discussion et l'abstract. En effet, ces parties sont assez facile à parser car elles sont toujours très bien délimitées par leur titre, et, dans le cas des références, n'ont pas de délimiteur de fin. \
+Les secondes sections les plus simples à parser sont le titre et les auteurs. Présents en début de fichier, il est assez simple de les récupérer. Toutefois, en raison d'articles ayant une mise page très différentes de ceux donnés pour le corpus de test (A_memetic_algorithm_for_community_detectionin_signed_networks, Cabrera_RESUMES_2019, Dynamical_Models_Explaining_Socia_Balance_and_Evolution_of_Cooperation, Partitioning_large_signed_two-mode_networks:_Problems_and_prospects), avec notamment des informations en tête de page etc, nous n'avons pas pu prendre en compte ce type d'article et avons ainsi manqué de parser certains titres et auteurs (on assiste à un décalage du titre et des auteurs dans la section abstract, avec les en-tête prenant la place du titre et des auteurs dans le fichier de sortie). \
+Restent l'introdution et le corps qui ont une efficacité faible, entre 0.2 et 0.3. Cela est dû au manque de temps causé que nous avons subi pour réaliser le projet, ayant ainsi mis en place une détection générique basée sur des regex détectant les chiffres romains pour délimiter les différentes sections des articles. \
+
 # Conclusion
 
-Grâce aux résultats obtenus, nous pouvons dire que la MOAI convertit assez bien les fichiers d'entrée qui lui sont présentés, au vu du temps de développement qui lui a été consacré. \
+Grâce aux résultats obtenus, nous pouvons dire que la MOAI convertit assez bien les fichiers d'entrée qui lui sont présentés, avec en moyenne 64,29% des sections parsées correctement, au vu du temps de développement qui lui a été consacré. \
 Bien sûr, l'outil n'est pas parfait, et ne parvient pas à détecter certaines parties du texte, notamment quand ces dernières ne sont pas délimitée par des mots-clé. \
 Cette approximation est en partie dûe à l'utilisation de pdftotext, qui s'il permet rapidement d'accéder aux contenus des articles, fait perdre toutes les informations sur le formatage du texte d'origine (mots en gras, italique, sauts de plusieurs lignes, etc...), qui auraient pu être utiles pour la détection des différentes parties, comme du titre de l'article et de la liste des auteurs notamment. \
 Il aurait peut-être été plus long, mais plus gratifiant, de devoir décrypter le fichier PDF nous-même, afin de pouvoir en extraire toutes les informations sémantiques de mise en page. \
