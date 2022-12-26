@@ -86,15 +86,16 @@ Nous avons enfin effectué une moyenne du parsing de chaque section ainsi que de
 
 ## Analyse des résultats
 
-Au niveau du parsing des différentes sections, nous pouvons voir que les sections les plus faciles à parser sont les références, talonnées par la conclusion / discussion et l'abstract. En effet, ces parties sont assez facile à parser car elles sont toujours très bien délimitées par leur titre, et, dans le cas des références, n'ont pas de délimiteur de fin. \
-Les secondes sections les plus simples à parser sont le titre et les auteurs. Présents en début de fichier, il est assez simple de les récupérer. Toutefois, en raison d'articles ayant une mise page très différentes de ceux donnés pour le corpus de test (A_memetic_algorithm_for_community_detectionin_signed_networks, Cabrera_RESUMES_2019, Dynamical_Models_Explaining_Socia_Balance_and_Evolution_of_Cooperation, Partitioning_large_signed_two-mode_networks:_Problems_and_prospects), avec notamment des informations en tête de page etc, nous n'avons pas pu prendre en compte ce type d'article et avons ainsi manqué de parser certains titres et auteurs (on assiste à un décalage du titre et des auteurs dans la section abstract, avec les en-tête prenant la place du titre et des auteurs dans le fichier de sortie). \
-Restent l'introdution et le corps qui ont une efficacité faible, entre 0.2 et 0.3. Cela est dû au manque de temps causé que nous avons subi pour réaliser le projet, ayant ainsi mis en place une détection générique basée sur des regex détectant les chiffres romains pour délimiter les différentes sections des articles. \
+Nous pouvons voir qu'à part pour trois fichiers, toutes les sections sont parsées correctement. En effet, ces trois fichiers présentent des disparités de mise en page élevées par rapport au corpus que nous avons utilisé pour le développement de la MOAI. \
+Les fichiers *Cabrera_RESUMES_2019* 
+et *Partitioning_large_signed_two-mode_networks_Problems_and_prospects* possèdent un agencemenent particulier des informations sur la première page, et notamment des en-têtes de page, ce qui pour notre algorithme fausse la récupération du titre et des auteurs. \ 
+Également, le fichier *Dynamical_Models_Explaining_Socia_Balance_and_Evolution_of_Cooperation* ne contient pas de numéro de section dans ses titres de sections, dont nous nous servons pour baser notre séparation des différentes parties.
 
 # Conclusion
 
-Grâce aux résultats obtenus, nous pouvons dire que la MOAI convertit assez bien les fichiers d'entrée qui lui sont présentés, avec en moyenne 64,29% des sections parsées correctement, au vu du temps de développement qui lui a été consacré. \
+Grâce aux résultats obtenus, nous pouvons dire que la MOAI convertit assez bien les fichiers d'entrée qui lui sont présentés, avec en moyenne 91,43% des sections parsées correctement, au vu du temps de développement qui lui a été consacré. \
 Bien sûr, l'outil n'est pas parfait, et ne parvient pas à détecter certaines parties du texte, notamment quand ces dernières ne sont pas délimitée par des mots-clé. \
-Cette approximation est en partie dûe à l'utilisation de pdftotext, qui s'il permet rapidement d'accéder aux contenus des articles, fait perdre toutes les informations sur le formatage du texte d'origine (mots en gras, italique, sauts de plusieurs lignes, etc...), qui auraient pu être utiles pour la détection des différentes parties, comme du titre de l'article et de la liste des auteurs notamment. \
+Cette approximation est en partie dûe à l'utilisation de pdftotext, qui s'il permet rapidement d'accéder aux contenus des articles, fait perdre toutes les informations sur le formatage du texte d'origine (mots en gras, italique, sauts de plusieurs lignes, etc...), qui auraient pu être utiles pour la détection des différentes parties, comme du titre de l'article et de la liste des auteurs notamment. Également, l'échantillon de documents de départ n'était pas assez diversfié par rapport au corpus de test pour que nous puissions développer une solution vraiment universelle. \
 Il aurait peut-être été plus long, mais plus gratifiant, de devoir décrypter le fichier PDF nous-même, afin de pouvoir en extraire toutes les informations sémantiques de mise en page. \
 
 # Bibliographie
