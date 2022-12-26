@@ -135,13 +135,17 @@ def generateXMLFiles(outputPath, xmlplus):
         output_file.write("\t<title>"+ extracter.getTitle() + '</title>\n')
         output_file.write("\t<auteur>" + extracter.getAuthors() + '</auteur>\n')
         output_file.write("\t<abstract>"+extracter.getAbstract()+"</abstract>\n")
+        
+        
         if xmlplus:
             output_file.write("\t<introduction>"+extracter.getIntroduction()+"</introduction>\n")
             output_file.write("\t<corps>"+extracter.getCorps()+"</corps>\n")
-            if "CONCLUSION" in extracter.fileString[extracter.getNextTitle(["Conclusion","Discussion"])]:
+            if "CONCLUSION" in extracter.fileString[extracter.getNextTitle(["Conclusion","Discussion"])].upper():
+                extracter.type = "txt"
                 output_file.write("\t<conclusion>"+extracter.getConclusion(["Discussion","references"])+"</conclusion>\n")
                 output_file.write("\t<discussion>"+extracter.getDiscussion(["references"])+"</discussion>\n")
             else : #Discussion
+                extracter.type = "txt"
                 output_file.write("\t<discussion>"+extracter.getDiscussion(["Conclusion","references"])+"</discussion>\n")
                 output_file.write("\t<conclusion>"+extracter.getConclusion(["References"])+"</conclusion>\n")
             
